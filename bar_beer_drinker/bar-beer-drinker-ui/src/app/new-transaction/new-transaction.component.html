@@ -1,0 +1,25 @@
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">New Transaction</h1>
+  </div>
+</div>
+
+<script>
+  angular.module('inputExample', [])
+    .controller('ExampleController', ['$scope', function($scope) {
+      $scope.user = {name: 'guest'};
+    }]);
+</script>
+<div ng-controller="ExampleController">
+ <form name="myForm">
+   <label>
+      Query:
+      <input type="text" name="query" ng-model="query" required>
+   </label>
+   <div role="alert">
+     <span class="error" ng-show="myForm.query.$error.required">
+      Required!</span>
+   </div>
+ </form>
+</div>
+<button type="button" class="btn btn-dark">Enter</button>

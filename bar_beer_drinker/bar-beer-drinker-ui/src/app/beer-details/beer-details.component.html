@@ -1,0 +1,51 @@
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+      <h1 class="display-4">{{ beerName }}</h1>
+      <p class="beer-details" *ngIf="manufacturer">
+          Made by <i>{{ manufacturer }}</i>  
+      </p>
+  </div>
+</div>
+
+<div class="container">
+  <br>
+  <div>
+    <h2 class="font-weight-light result-count">This beer is sold at {{ sells?.length }} different bars.</h2>
+  </div>
+  <br>
+  <p-table [value]="sells" [paginator]="true" [rows]="10">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Bar</th>
+        <th>
+          Price
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-sell>
+      <tr>
+        <td>{{ sell.bar }}</td>
+        <td>{{ sell.price | currency }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<br>
+<br>
+
+<div class="container">
+  <br>
+  <div id="bargraph"></div>
+</div>
+
+
+<div class="container">
+  <br>
+  <div id="barcgraph"></div>
+</div>
+
+<div class="container">
+  <br>
+  <div id="barTgraph"></div>
+</div>

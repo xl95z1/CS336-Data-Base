@@ -1,0 +1,36 @@
+CREATE DEFINER=`chickenfriedrice`@`%` PROCEDURE `Add_Transactions`()
+BEGIN
+    declare maxentries int default 10045;
+    declare NumItems int;
+	while maxentries > 0 do
+		set @billsID = 	(SELECT a.billID
+								 FROM billss a
+								 ORDER BY a.billID
+								 LIMIT 1 OFFSET maxentries
+								);
+        
+        set @Sbar =			(SELECT b.bar
+								 FROM billss b
+                                 WHERE b.billID = @billsID
+								);
+        
+        set NumItems = floor(rand()*4)+1;
+        
+        while NumItems > 0 do
+			set @Quantity = floor(rand()*5)+1;
+            set @Consumable = 	(SELECT d.item
+								 FROM sells d
+                                 WHERE d.bar = @Sbar
+                                 ORDER BY rand()
+                                 LIMIT 1
+                                 );
+                                 
+			insert	ignore 	Transactionss(billID, item, quantity)
+					values		  (@billsID, @Consumable, @Quantity);
+            
+            set NumItems = NumItems - 1;
+		end while;
+	
+		set maxentries = maxentries - 1;
+    end while;
+END

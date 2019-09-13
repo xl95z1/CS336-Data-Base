@@ -1,0 +1,36 @@
+CREATE DEFINER=`chickenfriedrice`@`%` PROCEDURE `Add_sells`()
+BEGIN
+    declare maxentries int default 100;
+    declare NumItems int;
+	while maxentries >= 0 do
+		set @Barname = 	(SELECT a.bar
+								 FROM barraddon a
+								 ORDER BY a.bar
+								 LIMIT 1 OFFSET maxentries
+								);
+        
+        set NumItems = floor((rand()*(15-10+1))+10);
+        
+        while NumItems > 0 do
+            set @Sitem = 	(SELECT k.item
+								 FROM baseprice k
+                                 ORDER BY rand()
+                                 LIMIT 1
+                                 );
+			set @Sprice = 	(SELECT k.price + l.addonprice
+								 FROM baseprice k, barraddon l
+                                 where k.item = @Sitem
+                                 and l.bar = @Barname
+                                 ORDER BY rand()
+                                 LIMIT 1
+                                 );
+                                 
+			insert	ignore 	sellss(bar, item, price)
+					values		  (@Barname, @Sitem, @Sprice);
+            
+            set NumItems = NumItems - 1;
+		end while;
+	
+		set maxentries = maxentries - 1;
+    end while;
+END
